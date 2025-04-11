@@ -31,7 +31,7 @@ function prepareGoods(goods, sortField, isReversed) {
         preparedGoods.sort((good1, good2) => good1.length - good2.length);
         break;
       default:
-        return 0;
+        break;
     }
   }
 
@@ -100,7 +100,9 @@ export const App = () => {
 
       <ul>
         {visibleGoods.map(good => (
-          <li data-cy="Good">{good}</li>
+          <li data-cy="Good" key={good}>
+            {good}
+          </li>
         ))}
       </ul>
     </div>
