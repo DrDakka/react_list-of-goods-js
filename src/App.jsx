@@ -19,19 +19,16 @@ export const goodsFromServer = [
 const SORT_FIELD_APHABET = 'by alphabet';
 const SORT_FIELD_LENGTH = 'by length';
 
-export const App = () => {
-  const [sortField, setSortField] = useState('');
-  const [isReversed, setReversed] = useState(false);
-
-  let visibleGoods = [...goodsFromServer];
+function prepareGoods(goods, sortField, isReversed) {
+  let preparedGoods = [...goods];
 
   if (sortField) {
     switch (sortField) {
       case SORT_FIELD_APHABET:
-        visibleGoods.sort((good1, good2) => good1.localeCompare(good2));
+        preparedGoods.sort((good1, good2) => good1.localeCompare(good2));
         break;
       case SORT_FIELD_LENGTH:
-        visibleGoods.sort((good1, good2) => good1.length - good2.length);
+        preparedGoods.sort((good1, good2) => good1.length - good2.length);
         break;
       default:
         return 0;
@@ -39,8 +36,16 @@ export const App = () => {
   }
 
   if (isReversed) {
-    visibleGoods = visibleGoods.toReversed();
+    preparedGoods = preparedGoods.toReversed();
   }
+
+  return preparedGoods;
+}
+
+export const App = () => {
+  const [sortField, setSortField] = useState('');
+  const [isReversed, setReversed] = useState(false);
+  const visibleGoods = prepareGoods(goodsFromServer, sortField, isReversed);
 
   return (
     <div className="section content">
